@@ -1,24 +1,4 @@
 <?php
-
-function loadConfig($dirs) {
-    $config = array();
-    
-    foreach($dirs as $dir) {
-        if (is_dir($dir)) {
-            foreach (new \DirectoryIterator($dir) as $fileInfo) {
-                if($fileInfo->isDot() or $fileInfo->isDir()) continue;
-                $config = array_merge($config, require($dir . $fileInfo->getFilename()));
-            }
-        } elseif (is_file($dir)) {
-            $config = array_merge($config, require($dir));
-        } else {
-            
-        }
-    }
-    
-    return $config;
-}
-
 /**
  * This makes our life easier when dealing with paths. Everything is relative
  * to the application root now.
@@ -28,17 +8,44 @@ chdir(dirname(__DIR__));
 // require composer autoloader for loading classes
 require 'vendor/autoload.php';
 
-// get configs
-$config = loadConfig(array(
-    'app/config/', // global configuration (should come first)
-    'app/config/' . $env . '/', // environment configuration
+// Instantiate a Slim application:
+$app = new \Slim\Slim(array(
+    'mode' => getenv('APPLICATION_ENV') ?: 'production',
 ));
 
-// Instantiate a Slim application:
-$app = new \Slim\Slim($config);
+// set configuration
+require 'app/config.php';
 
 // include the routes (always after we've instantiated our app instance)
 require 'app/routes.php';
+
+// setup database
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'budget_development',
+    'username'  => 'root',
+    'password'  => 't1nth3p4rk',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+// Set the event dispatcher used by Eloquent models... (optional)
+use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
+$capsule->setEventDispatcher(new Dispatcher(new Container));
+
+// Make this Capsule instance available globally via static methods... (optional)
+$capsule->setAsGlobal();
+
+// Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
+$capsule->bootEloquent();
 
 // Run the Slim application:
 $app->run();

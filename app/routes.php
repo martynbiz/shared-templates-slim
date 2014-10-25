@@ -1,6 +1,10 @@
 <?php
 
 // Define a HTTP GET route:
-$app->get('/hello/:name', function ($name) {
-    echo "Hello, $name";  
+$app->group('/accounts', function () use ($app) {
+    
+    $controller = new App\Controllers\AccountsController($app);
+    
+    require '_routes_resource.php';
+    
 });
