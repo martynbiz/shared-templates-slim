@@ -20,4 +20,4 @@ $app->configureMode('production', function () use ($app) {
     ));
 });
 
-require 'database.php';
+require 'database.php'; 
