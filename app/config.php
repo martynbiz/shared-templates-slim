@@ -19,3 +19,5 @@ $app->configureMode('production', function () use ($app) {
         'debug' => false,
     ));
 });
+
+require 'database.php';

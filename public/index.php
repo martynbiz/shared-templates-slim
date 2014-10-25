@@ -26,11 +26,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $capsule = new Capsule;
 
 $capsule->addConnection([
-    'driver'    => 'mysql',
-    'host'      => 'localhost',
-    'database'  => 'budget_development',
-    'username'  => 'root',
-    'password'  => 't1nth3p4rk',
+    'driver'    => $app->config('database.driver') ?: 'mysql',
+    'host'      => $app->config('database.host') ?: 'localhost',
+    'database'  => $app->config('database.database'),
+    'username'  => $app->config('database.username'),
+    'password'  => $app->config('database.password'),
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => '',

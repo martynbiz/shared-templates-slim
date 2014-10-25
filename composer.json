@@ -1,4 +1,20 @@
 {
+    "name": "Shared templates",
+    "description": "Combining a PHP framework with a JS framework via templates.",
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/models",
+            "app/views"
+        ]
+    },
     "require": {
         "slim/slim": "2.*",
         "illuminate/database": "*",
@@ -6,12 +22,5 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
-    },
-    "autoload": {
-        "classmap": [
-            "app/controllers",
-            "app/models",
-            "app/views"
-        ]
     }
 }
