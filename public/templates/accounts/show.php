@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="/accounts">Accounts</a></li>
+    <li><a href="/accounts" data-action="list_accounts">Accounts</a></li>
     <li class="active">{{ account.name }}</li>
 </ol>
 
@@ -29,5 +29,5 @@
 </table>
 
 <div>
-    <a href="/accounts/{{ account.id }}/edit" data-method="edit" data-id="{{ id }}" class="btn btn-primary" role="button">Edit</a>
+    <a href="/accounts/{{ account.id }}/edit" data-action="edit_account" data-id="{{ id }}" class="btn btn-primary" role="button">Edit</a>
 </div>

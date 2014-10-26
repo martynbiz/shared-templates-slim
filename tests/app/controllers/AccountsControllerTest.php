@@ -19,7 +19,7 @@ class AccountsControllerTest extends PHPUnit_Framework_TestCase {
         $app = App::getInstance();
         
         //$app->middleware[0]->call();
-        $app->response()->finalize();
+            $app->response()->finalize(); // http://docs.slimframework.com/#Response-Helpers
         return $app->response();
     }
     

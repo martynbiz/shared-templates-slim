@@ -28,4 +28,17 @@ abstract class BaseController
         
         return $this->user;
     }
+    
+    public function getParams()
+    {
+        $request = $this->app->request;
+        
+        if (strpos($request->getContentType(), 'application/json') !== false) {
+            // json
+            return json_decode($this->app->request->getBody(), true);
+        } else {
+            // form
+            return $request->post();
+        }
+    }
 }

@@ -17,37 +17,63 @@ class AccountsController extends BaseController
     
     public function index()
     {
+        $request = $this->app->request;
+        $response = $this->app->response;
+        
         $accounts = $this->getUser()->accounts;
         
-        $this->app->render('accounts/index.php', array(
-            'accounts' => $accounts->toArray(),
-        ));
+        if ($request->isAjax()) {
+            $response->setStatus(200);
+            return $response->setBody( json_encode($accounts->toArray()) );
+        } else {    
+            $this->app->render('accounts/index.php', array(
+                'accounts' => $accounts->toArray(),
+            ));
+        }
     }
     
     public function show($id)
     {
+        $request = $this->app->request;
+        $response = $this->app->response;
+        
         $accounts = $this->getUser()->accounts;
         $account = $accounts->find($id);
         
-        $this->app->render('accounts/show.php', array(
-            'account' => $account->toArray(),
-        ));
+        if ($request->isAjax()) {
+            //$response->setStatus(200);
+            //return $response->setBody( json_encode($account->toArray()) );
+        } else {    
+            $this->app->render('accounts/show.php', array(
+                'account' => $account->toArray(),
+            ));
+        }
     }
     
     public function create()
     {
-        $params = $this->app->request->post();
+        $request = $this->app->request;
+        $response = $this->app->response;
         
-        if ($this->app->request->isPost()) {
+        $params = $this->getParams();
+        
+        if ($request->isPost()) { 
+            
+            $user = $this->getUser(); 
             
             $account = $this->accountsTable->create(array(
                 'name' => $params['name'],
                 'amount' => $params['amount'],
-                'user_id' => 1,
+                'user_id' => $user->id,
             ));
             
             if($account->save()) {
-                $this->app->redirect('/accounts');
+                if ($request->isAjax()) {
+                    $response->setStatus(201);
+                    return $response->setBody( json_encode($account->toArray()) );
+                } else {
+                    $this->app->redirect('/accounts');
+                }
             } else {
                 // set some errors
             }
@@ -60,6 +86,9 @@ class AccountsController extends BaseController
     
     public function update($id)
     {
+        $request = $this->app->request;
+        $response = $this->app->response;
+        
         $params = $this->app->request->post();
         
         if ($this->app->request->isPut()) {

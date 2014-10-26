@@ -5,7 +5,6 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>id</th>
             <th>name</th>
             <th>amount</th>
             <th></th>
@@ -14,13 +13,12 @@
     <tbody>
         {{# accounts }}
             <tr>
-                <td>{{ id }}</td>
                 <td>{{ name }}</td>
                 <td>{{ amount }}</td>
                 <td>
-                    <a href="/accounts/{{ id }}">Show</a> |
-                    <a href="/accounts/{{ id }}/edit">Edit</a> |
-                    <a href="/accounts/{{ id }}/delete">Delete</a>
+                    <a href="/accounts/{{ id }}" data-id="{{ id }}" data-action="show_account">Show</a> |
+                    <a href="/accounts/{{ id }}/edit" data-id="{{ id }}" data-action="edit_account">Edit</a> |
+                    <a href="/accounts/{{ id }}/delete" data-id="{{ id }}" data-action="delete_account">Delete</a>
                 </td>
             </tr>
         {{/ accounts }}
@@ -28,5 +26,5 @@
 </table>
 
 <div>
-    <a href="/accounts/create" class="btn btn-primary" role="button">New</a>
+    <a href="/accounts/create" class="btn btn-primary" role="button" data-action="new_account">New</a>
 </div>
