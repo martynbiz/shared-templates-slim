@@ -6,9 +6,18 @@ use App\Models\Account;
 
 class AccountsController extends BaseController
 {
+    protected $accountsTable;
+    
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        
+        $this->accountsTable = $this->app->config('service.App\Models\Account');
+    } 
+    
     public function index()
     {
-        $accounts = Account::all();
+        $accounts = $this->accountsTable->all();
         
         $this->app->render('accounts/index.php', array(
             'accounts' => $accounts->toArray(),
@@ -17,7 +26,9 @@ class AccountsController extends BaseController
     
     public function show($id)
     {
-        $account = Account::find($id);
+        $accounts = $this->accountsTable->all();
+        
+        $account = $accounts->find($id);
         
         $this->app->render('accounts/show.php', array(
             'account' => $account->toArray(),
@@ -30,11 +41,11 @@ class AccountsController extends BaseController
         
         if ($this->app->request->isPost()) {
             
-            $account = new Account();
-            
-            $account->name = $params['name'];
-            $account->amount = $params['amount'];
-            $account->user_id = 1;
+            $account = $this->accountsTable->create(array(
+                'name' => $params['name'],
+                'amount' => $params['amount'],
+                'user_id' => 1,
+            ));
             
             if($account->save()) {
                 $this->app->redirect('/accounts');
@@ -54,7 +65,7 @@ class AccountsController extends BaseController
         
         if ($this->app->request->isPut()) {
             
-            $account = Account::find($id);
+            $account = $this->accountsTable->find($id);
             
             $account->name = $params['name'];
             $account->amount = $params['amount'];
@@ -66,7 +77,7 @@ class AccountsController extends BaseController
             }
         }
         
-        $account = Account::find($id);
+        $account = $this->accountsTable->find($id);
         
         $account = array_merge($account->toArray(), $params);
         
@@ -78,11 +89,11 @@ class AccountsController extends BaseController
     public function delete($id)
     {
         if ($this->app->request->isDelete()) {
-            Account::destroy($id);
+            $this->accountsTable->destroy($id);
             $this->app->redirect('/accounts');
         }
         
-        $account = Account::find($id);
+        $account = $this->accountsTable->find($id);
         
         $this->app->render('accounts/delete.php', array(
             'account' => $account,

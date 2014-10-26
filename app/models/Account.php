@@ -8,6 +8,6 @@ class Account extends BaseModel
     
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('\App\Models\User');
     }
 }

@@ -6,8 +6,8 @@ class User extends BaseModel
 {
     protected $fillable = array('name', 'username', 'email', 'password', 'salt');
     
-    public function account()
+    public function accounts()
     {
-        return $this->hasMany('Account');
+        return $this->hasMany('\App\Models\Account');
     }
 }

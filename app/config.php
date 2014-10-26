@@ -20,4 +20,11 @@ $app->configureMode('production', function () use ($app) {
     ));
 });
 
+// services
+
+$app->config(array(
+    'service.App\Models\Account' => new App\Models\Account,
+    'service.App\Models\User' => new App\Models\User,
+));
+
 require 'database.php'; 
