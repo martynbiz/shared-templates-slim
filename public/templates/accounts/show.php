@@ -1,6 +1,9 @@
-<h2><a href="/accounts">Accounts</a> | {{ account.name }}</h2>
+<ol class="breadcrumb">
+    <li><a href="/accounts">Accounts</a></li>
+    <li class="active">{{ account.name }}</li>
+</ol>
 
-<table cellpadding="10" border="1">
+<table class="table table-striped">
     <tr>
         <th>id</th>
         <td>{{ account.id }}</td>
@@ -22,13 +25,9 @@
         <td>{{ account.updated_at }}</td>
     </tr>
     <tr>
-        <th>deleted_at</th>
-        <td>{{ account.deleted_at }}</td>
-    </tr>
-    <tr>
     </tr>
 </table>
 
 <div>
-    <a href="/accounts/{{ account.id }}/edit" data-method="edit" data-id="{{ id }}">Edit</a>
+    <a href="/accounts/{{ account.id }}/edit" data-method="edit" data-id="{{ id }}" class="btn btn-primary" role="button">Edit</a>
 </div>

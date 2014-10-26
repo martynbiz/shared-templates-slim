@@ -1,4 +1,4 @@
-<table cellpadding="10" border="1">
+<table class="table">
     <tr>
         <th>name</th>
         <td><input type="text" name="name" value="{{ account.name }}"></td>
