@@ -10,9 +10,9 @@
     ],
     "autoload": {
         "classmap": [
-            "app/controllers",
             "app/models",
             "app/views"
+            "app/controllers",
         ]
     },
     "require": {
