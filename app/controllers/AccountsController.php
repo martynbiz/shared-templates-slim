@@ -17,7 +17,7 @@ class AccountsController extends BaseController
     
     public function index()
     {
-        $accounts = $this->accountsTable->all();
+        $accounts = $this->getUser()->accounts;
         
         $this->app->render('accounts/index.php', array(
             'accounts' => $accounts->toArray(),
@@ -26,8 +26,7 @@ class AccountsController extends BaseController
     
     public function show($id)
     {
-        $accounts = $this->accountsTable->all();
-        
+        $accounts = $this->getUser()->accounts;
         $account = $accounts->find($id);
         
         $this->app->render('accounts/show.php', array(
@@ -65,7 +64,8 @@ class AccountsController extends BaseController
         
         if ($this->app->request->isPut()) {
             
-            $account = $this->accountsTable->find($id);
+            $accounts = $this->getUser()->accounts;
+            $account = $accounts->find($id);
             
             $account->name = $params['name'];
             $account->amount = $params['amount'];
@@ -93,7 +93,8 @@ class AccountsController extends BaseController
             $this->app->redirect('/accounts');
         }
         
-        $account = $this->accountsTable->find($id);
+        $accounts = $this->getUser()->accounts;
+        $account = $accounts->find($id);
         
         $this->app->render('accounts/delete.php', array(
             'account' => $account,

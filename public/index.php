@@ -19,7 +19,7 @@ require 'app/config.php';
 // include the routes (always after we've instantiated our app instance)
 require 'app/routes.php';
 
-// setup database
+// setup database for applcation
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 

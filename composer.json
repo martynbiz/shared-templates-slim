@@ -11,8 +11,12 @@
     "autoload": {
         "classmap": [
             "app/models",
-            "app/views"
+            "app/views",
             "app/controllers",
+            "tests/app",
+            "tests/app/models",
+            "tests/app/views",
+            "tests/app/controllers"
         ]
     },
     "require": {
