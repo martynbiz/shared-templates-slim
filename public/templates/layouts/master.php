@@ -36,10 +36,9 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <!-- <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-      </ul> --> 
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/pages/about" data-template="/pages/about.php">About</a></li>
+      </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -65,9 +64,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
-<script src="/js/ajax_cacher.js"></script>
-<script src="/js/resource_loader.js"></script>
+<!-- <script src="/js/ajax_cacher.js"></script> -->
+<!-- <script src="/js/resource_loader.js"></script> -->
 
+<script src="/js/Templa.js"></script>
 <script src="/js/custom.js"></script>
 </body>
 

@@ -16,9 +16,9 @@
                 <td>{{ name }}</td>
                 <td>{{ amount }}</td>
                 <td>
-                    <a href="/accounts/{{ id }}" data-id="{{ id }}" data-action="show_account">Show</a> |
-                    <a href="/accounts/{{ id }}/edit" data-id="{{ id }}" data-action="edit_account">Edit</a> |
-                    <a href="/accounts/{{ id }}/delete" data-id="{{ id }}" data-action="delete_account">Delete</a>
+                    <a href="/accounts/{{ id }}" data-data="/accounts/{{ id }}" data-template="/templates/accounts/show.php">Show</a> |
+                    <a href="/accounts/{{ id }}/edit" data-data="/accounts/{{ id }}" data-template="/templates/accounts/update.php">Edit</a> |
+                    <a href="/accounts/{{ id }}/delete" data-data="/accounts/{{ id }}" data-template="/templates/accounts/delete.php">Delete</a>
                 </td>
             </tr>
         {{/ accounts }}

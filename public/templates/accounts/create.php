@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="/accounts">Accounts</a></li>
+    <li><a href="/accounts" data-data="/accounts" data-template="/templates/accounts/index.php">Accounts</a></li>
     <li class="active">create</li>
 </ol>
 

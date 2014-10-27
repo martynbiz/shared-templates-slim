@@ -23,7 +23,7 @@ class AccountsController extends BaseController
         $accounts = $user->accounts;
         
         // this is what we return to the client/template
-        $data = array(
+        $params = array(
             'accounts' => $accounts->toArray()
         );
         
@@ -31,9 +31,9 @@ class AccountsController extends BaseController
             $response = $this->getResponse();
             
             $response->setStatus(200);
-            return $response->setBody( json_encode($data) );
+            return $response->setBody( json_encode($params) );
         } else {    
-            $this->render('accounts/index.php', $data);
+            $this->render('accounts/index.php', $params);
         }
     }
     
@@ -46,15 +46,15 @@ class AccountsController extends BaseController
         $account = $accounts->find($id);
         
         // this is what we return to the client/template
-        $data = $account->toArray();
+        $params = $account->toArray();
         
         if ($request->isAjax()) {
             $response = $this->getResponse();
             
             $response->setStatus(200);
-            return $response->setBody( json_encode($data) );
+            return $response->setBody( json_encode($params) );
         } else {    
-            $this->render('accounts/show.php', $data);
+            $this->render('accounts/show.php', $params);
         }
     }
     
@@ -87,10 +87,7 @@ class AccountsController extends BaseController
             }
         }
         
-        // this is what we return to the client/template
-        $data = $params->toArray();
-        
-        $this->render('accounts/create.php', $data);
+        $this->render('accounts/create.php', $params);
     }
     
     public function update($id)
@@ -119,9 +116,9 @@ class AccountsController extends BaseController
         $account = $this->accountsTable->find($id)->toArray();
         
         // this is what we return to the client/template
-        $data = array_merge($account, $params);
+        $params = array_merge($account, $params);
         
-        $this->render('accounts/update.php', $data);
+        $this->render('accounts/update.php', $params);
     }
     
     public function delete($id)
@@ -135,9 +132,9 @@ class AccountsController extends BaseController
         $account = $accounts->find($id);
         
         // this is what we return to the client/template
-        $data = $account->toArray();
+        $params = $account->toArray();
         
-        $this->render('accounts/delete.php', $data);
+        $this->render('accounts/delete.php', $params);
     }
     
 }

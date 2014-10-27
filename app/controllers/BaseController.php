@@ -55,7 +55,7 @@ abstract class BaseController
         return $this->app->response;
     }
     
-    public function render($templatePath, $data)
+    public function render($templatePath, $data=array())
     {
         return $this->app->render($templatePath, $data);
     }

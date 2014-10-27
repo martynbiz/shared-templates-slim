@@ -19,72 +19,60 @@ $(function() {
 //  about_page.fetch();
 
 
-var customView = function(template, data) { // designed to handle two data sources 
+/*
+
+Templa.load({
+    template_url: '/templates/accounts/show.php',
+    data_url: '/accounts/3'
+})
+
+*/
+
+Templa.config('view', function(template, data) { // designed to handle two data sources 
     
     var template = Handlebars.compile(template);
     var html = template(data);
     
     $("#content").html(html);
-    setLinks("#content");
-}
+    Templa.init("#content");
+});
 
-var setLinks = function(container) {
+Templa.init();  
+
+// var customView = function(template, data) { // designed to handle two data sources 
     
-    $(container).find("[data-action='show_account']").on("click", function() {
-        
-        var accounts_show = ResourceLoader_register({
-            data_url: "/accounts/"+$(this).data("id"),
-            template_url: "/templates/accounts/show.php",
-            render: customView
-        });
-        
-        accounts_show.fetch();
-        
-        return false;
-    })
+//     var template = Handlebars.compile(template);
+//     var html = template(data);
+    
+//     $("#content").html(html);
+//     setLinks("#content");
+// }
 
-    $(container).find("[data-action='list_accounts']").on("click", function() {
+// var setLinks = function(container) {
+    
+//     $(container).find("[data-template]").on("click", function() {
         
-        var accounts_index = ResourceLoader_register({
-            data_url: "/accounts",
-            template_url: "/templates/accounts/index.php",
-            render: customView
-        });
+//         var data_url = $(this).data("data");
+//         // if(data_url === "href") {
+//         //     data_url = $(this).attr("href");
+//         // }
         
-        accounts_index.fetch();
+//         var template_url = $(this).data("template");
         
-        return false;
-    })
-
-    $(container).find("[data-action='edit_account']").on("click", function() {
+//         var accounts_show = ResourceLoader_register({
+//             data_url: data_url,
+//             template_url: template_url,
+//             render: customView
+//         });
         
-        var accounts_edit = ResourceLoader_register({
-            data_url: "/accounts/"+$(this).data("id"),
-            template_url: "/templates/accounts/update.php",
-            render: customView
-        });
+//         accounts_show.fetch();
         
-        accounts_edit.fetch();
-        
-        return false;
-    })
-
-    $(container).find("[data-action='delete_account']").on("click", function() {
-        
-        var accounts_delete = ResourceLoader_register({
-            data_url: "/accounts/"+$(this).data("id"),
-            template_url: "/templates/accounts/delete.php",
-            render: customView
-        });
-        
-        accounts_delete.fetch();
-        
-        return false;
-    })
-}
+//         return false;
+//     })
+// }
 
 
-setLinks("*");
+// setLinks("*");
 
 
 
