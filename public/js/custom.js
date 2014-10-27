@@ -22,9 +22,18 @@ $(function() {
 /*
 
 Templa.load({
-    template_url: '/templates/accounts/show.php',
+    template_url: '/templates/accounts/edit.php',
     data_url: '/accounts/3'
 })
+
+Route.match('accounts/:id', function(id) { // match href
+    Templa.load({
+        template_url: '/templates/accounts/show.php',
+        data_url: '/accounts/' + id
+    })
+})
+
+<a href="...">Show</a>
 
 */
 
