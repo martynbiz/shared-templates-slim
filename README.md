@@ -4,7 +4,10 @@ TODO:
 - validation https://github.com/illuminate/validation
 - migrations
 - authentication
+- front end should have a re-usable View object
+- 
 
+- test in ie
 - message flashing
 - set <title>
 

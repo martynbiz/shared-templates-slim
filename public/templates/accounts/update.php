@@ -1,10 +1,10 @@
 <ol class="breadcrumb">
-    <li><a href="/accounts">Accounts</a></li>
-    <li><a href="/accounts/{{ account.id }}">{{ account.name }}</a></li>
+    <li><a href="/accounts" data-action="list_accounts">Accounts</a></li>
+    <li><a href="/accounts/{{ id }}" data-id="{{ id }}" data-action="show_account">{{ name }}</a></li>
     <li class="active">edit</li>
 </ol>
 
-<form method="POST" action="/accounts/{{ account.id }}" name="accounts_update">
+<form method="POST" action="/accounts/{{ id }}" name="accounts_update">
     <?php include '_form.php'; ?>
     
     <input type="hidden" name="_METHOD" value="PUT"/>

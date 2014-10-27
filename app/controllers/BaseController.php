@@ -29,6 +29,9 @@ abstract class BaseController
         return $this->user;
     }
     
+    // these are just some helper functions to aid controller and make it
+    // clearer and neater when performing operations
+    
     public function getParams()
     {
         $request = $this->app->request;
@@ -41,4 +44,20 @@ abstract class BaseController
             return $request->post();
         }
     }
+    
+    public function getRequest()
+    {
+        return $this->app->request;
+    }
+    
+    public function getResponse()
+    {
+        return $this->app->response;
+    }
+    
+    public function render($templatePath, $data)
+    {
+        return $this->app->render($templatePath, $data);
+    }
+    
 }

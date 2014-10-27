@@ -17,43 +17,51 @@ class AccountsController extends BaseController
     
     public function index()
     {
-        $request = $this->app->request;
-        $response = $this->app->response;
+        $request = $this->getRequest();
+        $user = $this->getUser();
         
-        $accounts = $this->getUser()->accounts;
+        $accounts = $user->accounts;
+        
+        // this is what we return to the client/template
+        $data = array(
+            'accounts' => $accounts->toArray()
+        );
         
         if ($request->isAjax()) {
+            $response = $this->getResponse();
+            
             $response->setStatus(200);
-            return $response->setBody( json_encode($accounts->toArray()) );
+            return $response->setBody( json_encode($data) );
         } else {    
-            $this->app->render('accounts/index.php', array(
-                'accounts' => $accounts->toArray(),
-            ));
+            $this->render('accounts/index.php', $data);
         }
     }
     
     public function show($id)
     {
-        $request = $this->app->request;
-        $response = $this->app->response;
+        $request = $this->getRequest();
+        $user = $this->getUser();
         
-        $accounts = $this->getUser()->accounts;
+        $accounts = $user->accounts;
         $account = $accounts->find($id);
         
+        // this is what we return to the client/template
+        $data = $account->toArray();
+        
         if ($request->isAjax()) {
-            //$response->setStatus(200);
-            //return $response->setBody( json_encode($account->toArray()) );
+            $response = $this->getResponse();
+            
+            $response->setStatus(200);
+            return $response->setBody( json_encode($data) );
         } else {    
-            $this->app->render('accounts/show.php', array(
-                'account' => $account->toArray(),
-            ));
+            $this->render('accounts/show.php', $data);
         }
     }
     
     public function create()
     {
-        $request = $this->app->request;
-        $response = $this->app->response;
+        $request = $this->getRequest();
+        $response = $this->getResponse();
         
         $params = $this->getParams();
         
@@ -79,19 +87,21 @@ class AccountsController extends BaseController
             }
         }
         
-        $this->app->render('accounts/create.php', array(
-            'account' => $params,
-        ));
+        // this is what we return to the client/template
+        $data = $params->toArray();
+        
+        $this->render('accounts/create.php', $data);
     }
     
     public function update($id)
     {
-        $request = $this->app->request;
-        $response = $this->app->response;
+        $request = $this->getRequest();
+        $response = $this->getResponse();
         
-        $params = $this->app->request->post();
+        // we put this here as it is used for the merge later even if empty
+        $params = $request->post();
         
-        if ($this->app->request->isPut()) {
+        if ($this->getRequest()->isPut()) {
             
             $accounts = $this->getUser()->accounts;
             $account = $accounts->find($id);
@@ -106,18 +116,17 @@ class AccountsController extends BaseController
             }
         }
         
-        $account = $this->accountsTable->find($id);
+        $account = $this->accountsTable->find($id)->toArray();
         
-        $account = array_merge($account->toArray(), $params);
+        // this is what we return to the client/template
+        $data = array_merge($account, $params);
         
-        $this->app->render('accounts/update.php', array(
-            'account' => $account,
-        ));
+        $this->render('accounts/update.php', $data);
     }
     
     public function delete($id)
     {
-        if ($this->app->request->isDelete()) {
+        if ($this->getRequest()->isDelete()) {
             $this->accountsTable->destroy($id);
             $this->app->redirect('/accounts');
         }
@@ -125,9 +134,10 @@ class AccountsController extends BaseController
         $accounts = $this->getUser()->accounts;
         $account = $accounts->find($id);
         
-        $this->app->render('accounts/delete.php', array(
-            'account' => $account,
-        ));
+        // this is what we return to the client/template
+        $data = $account->toArray();
+        
+        $this->render('accounts/delete.php', $data);
     }
     
 }

@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href="/accounts">Accounts</a></li>
-    <li><a href="/accounts/{{ account.id }}">{{ account.name }}</a></li>
+    <li><a href="/accounts" data-action="list_accounts">Accounts</a></li>
+    <li><a href="/accounts/{{ id }}" data-id="{{ id }}" data-action="show_account">{{ name }}</a></li>
     <li class="active">delete</li>
 </ol>
 
@@ -13,7 +13,7 @@
             <input type="hidden" name="_METHOD" value="DELETE"/>
             
             <input type="submit" name="submit" value="Delete" class="btn btn-primary" role="button">
-            <a href="/accounts" class="btn btn-default" role="button">Cancel</a>
+            <a href="/accounts" class="btn btn-default" role="button" data-action="list_accounts">Cancel</a>
         </form>
     </div>
 </div>
