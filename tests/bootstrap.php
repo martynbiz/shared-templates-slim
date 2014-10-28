@@ -8,6 +8,22 @@ chdir(dirname('../'));
 // require composer autoloader for loading classes
 require 'vendor/autoload.php';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // app container class - singleton pattern
 class App
 {
@@ -19,7 +35,7 @@ class App
         if (!isset(self::$instance)) {
             // Instantiate a Slim application:
             $app = new \Slim\Slim(array(
-                'mode' => getenv('APPLICATION_ENV') ?: 'production',
+                'mode' => 'development', //getenv('APPLICATION_ENV') ?: 'production',
             ));
 
             // set configuration
@@ -33,6 +49,22 @@ class App
         return self::$instance;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // use Slim\Slim;
 

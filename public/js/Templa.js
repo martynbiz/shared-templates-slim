@@ -1,38 +1,22 @@
-/*
-
-needs to update url too :)
-
-*/
 
 var Templa = {}; // api
 
 (function($) {
     
-    // ** this is all really messy, needs tidying up
-    
-    // ajax cacher
+    /**
+    * Ajax cacher
+    * 
+    * This handy little extension to jQuery.ajax allows us to really cache if we want
+    * Responses are stored in the ajaxCache variable
+    */
     
     var ajaxCache = {};
     
     $.ajaxCacher = function(options) {
-        // this is a simple wrapper for ajax with added caching functionality
-        
-        // // This is the easiest way to have default options.
-        // options = $.extend({
-        //     // These are the defaults.
-        //     cache: true
-        // }, options);
         
         if(typeof ajaxCache[options.url] !== "undefined" && options.useCache) {
-            
-            // is in cache
             options.success(ajaxCache[options.url]);
-            
         } else {
-            
-            // not in cache, make call to the server
-            
-            // take success function as is now (so we can add cache storage stuff too)
             var success = options.success;
             
             options.success = function(data) {
@@ -40,30 +24,25 @@ var Templa = {}; // api
                 success(data);
             }
             
-            // make ajax call to the server
             $.ajax(options);
-            
         }
-        
     }
     
     
+    /**
+    * Loader constructor
+    * 
+    * Each URL (template, data) has it's own loader. The loader may be a data loader which
+    * will be tied to a template loader, and vice versa. Each can load async, when both are
+    * ready the render function will be fired of the 
+    */
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // View constructor
-    // Construtor class for our data retrievers (e.g. market and prices)
-    var ResourceLoader = function(options) {
+    /**
+    * Contains instances of loaders that have been created. Instances are stored by
+    * template_url and data_url (so two links could have the same urls, and share the
+    * same instance)
+    */
+    var Loader = function(options) {
         
         this.options = options;  
         
@@ -75,7 +54,7 @@ var Templa = {}; // api
     // fetch property method
     // Will fetch the data from the server, set flag to true/false, call render
     // - ajax_options: don't confuse obj_options with ajax_options
-    ResourceLoader.prototype.fetch = function(data, fetch_options) {
+    Loader.prototype.fetch = function(data, fetch_options) {
         
         // because this this is not this inside the ajax method
         var _this_loader = this;
@@ -155,12 +134,42 @@ var Templa = {}; // api
         });
         
     };
+    
+    
+    /**
+    * Templa module
+    * 
+    * Templa module will register loaders, load loaders and initiate links. It's rather neat ;) 
+    */
+    
+    /**
+    * Contains instances of loaders that have been created. Instances are stored by
+    * template_url and data_url (so two links could have the same urls, and share the
+    * same instance)
+    */
+    var _loader_container = {};
+    
+    /**
+    * This is the config container of the Templa library. Most importantly it
+    * contains the view which is used to render the template and data
+    */
+    var _config = {
+        
+        /**
+        * this config is a function which takes two arguments: template, and data
+        * It is defined in the app and will render the page in what ever way the 
+        * developer wishes. For example, the template may be a handlebars template
+        * and the function will compile it.
+        */
+        view: function(template, data) {
+            console.log("Templa view not set.")
+        }
+    }
 
-    // this is a kinda singleton contain so we don't make too many of the same resource
-    var ResourceLoader_container = {};
-
-    // create a relationship between the template and data loader
-    ResourceLoader_register = function(options) {
+    /**
+    * Register the template and data urls in a loader object. 
+    */
+    Templa.register = function(options) {
         
         // check that we have a relevant URLs set. Otherwise we cannot proceed
         // also, define what the ID is for the container
@@ -173,19 +182,19 @@ var Templa = {}; // api
         }
         
         // check the container if this resource exists in there
-        if(ResourceLoader_container[id]) {
-            return ResourceLoader_container[id]
+        if(_loader_container[id]) {
+            return _loader_container[id]
         }
         
         // Get to work! Build some resources
         if(options.data_url && options.template_url) {
                 
-            var data_loader = new ResourceLoader({
+            var data_loader = new Loader({
                 url: options.data_url, 
                 render: options.render
             });
             
-            var template_loader = new ResourceLoader({
+            var template_loader = new Loader({
                 url: options.template_url
             });
             
@@ -196,7 +205,7 @@ var Templa = {}; // api
         } else if(options.template_url) {
             
             // only one url has been set so let's just handle that one
-            var data_loader = new ResourceLoader({
+            var data_loader = new Loader({
                 url: options.template_url, 
                 render: options.render
             });
@@ -204,61 +213,48 @@ var Templa = {}; // api
         }
         
         // store in the container for later
-        ResourceLoader_container[id] = data_loader
+        _loader_container[id] = data_loader
         
         return data_loader;
     }
     
+    /**
+    * Load one or both templates by passing a template_url and an (opptional) data_url
+    * 
+    */
+    Templa.load = function(template_url, data_url) {
+        
+        var accounts_show = Templa.register({
+            data_url: data_url,
+            template_url: template_url,
+            render: Templa.config('view')
+        });
+        
+        accounts_show.fetch();
+    }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+    * Initiate the page (or block) by setting all the links load templates where set
+    * 
+    */
     Templa.init = function(container) {
         
         if(! container) container = "*";
         
-        var _Templa = this; // give us a reference back to "this"
-        
         $(container).find("[data-template]").on("click", function() {
             
+            // get the urls from the data-* attributes
             var data_url = $(this).data("data");
-            // if(data_url === "href") {
-            //     data_url = $(this).attr("href");
-            // }
-            
             var template_url = $(this).data("template");
             
-            ////////////////// Templa.load
+            // load the templates
+            Templa.load(template_url, data_url)
             
-            var accounts_show = ResourceLoader_register({
-                data_url: data_url,
-                template_url: template_url,
-                render: _Templa.config('view')
-            });
-            
-            accounts_show.fetch();
-            
-            /////////////////
+            history.pushState(null, null, $(this).attr("href"));
             
             return false;
         })
-    }
-    
-    _config = {
-        view: function(template) {
-            console.log("Templa view not set.")
-        }
     }
     
     Templa.config = function(name, value) {

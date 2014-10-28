@@ -21,17 +21,46 @@ $(function() {
 
 /*
 
+var AccountsController = {}; //new Templa.Controller();
+
+AccountsController.index = function() {
+    Templa.load({
+        template_url: '/templates/accounts/index.php',
+        data_url: '/accounts'
+    })
+}
+
+
+
 Templa.load({
     template_url: '/templates/accounts/edit.php',
     data_url: '/accounts/3'
 })
 
-Route.match('accounts/:id', function(id) { // match href
+// triggered when a link, or form(GET) is submitted
+Templa.map('/accounts/:id', function(id) { // match href
     Templa.load({
         template_url: '/templates/accounts/show.php',
         data_url: '/accounts/' + id
     })
 })
+
+// store as:
+{
+    'GET': {
+        '/accounts': function() {...},
+        '/accounts/:id': function() {...}
+    }
+}
+
+// assign to links:
+onclick=function() {
+    if(Templa.isRoute(this.href, "GET")) {
+        Templa.loadLink(this);
+    }
+}
+
+Templa.redirect('accounts/3')
 
 <a href="...">Show</a>
 
