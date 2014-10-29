@@ -50,7 +50,7 @@ class RoutesTest extends PHPUnit_Framework_TestCase
         
         // set up app
         
-        $app->config('service.App\Models\Account');
+        $app->config('service.App\Models\Account', $viewMock);
         
         // 
         

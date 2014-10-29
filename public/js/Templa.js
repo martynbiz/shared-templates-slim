@@ -1,7 +1,10 @@
+/**
+* Templa module
+* 
+* Templa module will register loaders, load loaders and initiate links. It's rather neat ;) 
+*/
 
-var Templa = {}; // api
-
-(function($) {
+var Templa = (function($) {
     
     /**
     * Ajax cacher
@@ -29,8 +32,36 @@ var Templa = {}; // api
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
-    * Loader constructor
+    * _Loader constructor
     * 
     * Each URL (template, data) has it's own loader. The loader may be a data loader which
     * will be tied to a template loader, and vice versa. Each can load async, when both are
@@ -42,7 +73,7 @@ var Templa = {}; // api
     * template_url and data_url (so two links could have the same urls, and share the
     * same instance)
     */
-    var Loader = function(options) {
+    var _Loader = function(options) {
         
         this.options = options;  
         
@@ -54,7 +85,7 @@ var Templa = {}; // api
     // fetch property method
     // Will fetch the data from the server, set flag to true/false, call render
     // - ajax_options: don't confuse obj_options with ajax_options
-    Loader.prototype.fetch = function(data, fetch_options) {
+    _Loader.prototype.fetch = function(data, fetch_options) {
         
         // because this this is not this inside the ajax method
         var _this_loader = this;
@@ -136,11 +167,19 @@ var Templa = {}; // api
     };
     
     
-    /**
-    * Templa module
-    * 
-    * Templa module will register loaders, load loaders and initiate links. It's rather neat ;) 
-    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // properties
     
     /**
     * Contains instances of loaders that have been created. Instances are stored by
@@ -153,7 +192,7 @@ var Templa = {}; // api
     * This is the config container of the Templa library. Most importantly it
     * contains the view which is used to render the template and data
     */
-    var _config = {
+    var _config_container = {
         
         /**
         * this config is a function which takes two arguments: template, and data
@@ -165,11 +204,29 @@ var Templa = {}; // api
             console.log("Templa view not set.")
         }
     }
-
-    /**
-    * Register the template and data urls in a loader object. 
-    */
-    Templa.register = function(options) {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // methods
+    
+    var _config = function(name, value) {
+        if(typeof value !== "undefined") {
+            return _config_container[name] = value;
+        } else {
+            return _config_container[name];
+        }
+    }
+    
+    var _register = function(options) {
         
         // check that we have a relevant URLs set. Otherwise we cannot proceed
         // also, define what the ID is for the container
@@ -189,12 +246,12 @@ var Templa = {}; // api
         // Get to work! Build some resources
         if(options.data_url && options.template_url) {
                 
-            var data_loader = new Loader({
+            var data_loader = new _Loader({
                 url: options.data_url, 
                 render: options.render
             });
             
-            var template_loader = new Loader({
+            var template_loader = new _Loader({
                 url: options.template_url
             });
             
@@ -205,7 +262,7 @@ var Templa = {}; // api
         } else if(options.template_url) {
             
             // only one url has been set so let's just handle that one
-            var data_loader = new Loader({
+            var data_loader = new _Loader({
                 url: options.template_url, 
                 render: options.render
             });
@@ -216,40 +273,39 @@ var Templa = {}; // api
         _loader_container[id] = data_loader
         
         return data_loader;
-    }
+    };
     
     /**
-    * Load one or both templates by passing a template_url and an (opptional) data_url
+    * Load a template and a data async
     * 
+    * @param template_url string
+    * @param data_url string
+    *
+    * @returns object Loader instance
     */
-    Templa.load = function(template_url, data_url) {
+    var _load = function(params) {
         
-        var accounts_show = Templa.register({
-            data_url: data_url,
-            template_url: template_url,
-            render: Templa.config('view')
+        var loader = _register({
+            data_url: params.data_url,
+            template_url: params.template_url,
+            render: _config('view')
         });
         
-        accounts_show.fetch();
-    }
+        loader.fetch();
+        
+        return loader;
+    };
     
-    
-    /**
-    * Initiate the page (or block) by setting all the links load templates where set
-    * 
-    */
-    Templa.init = function(container) {
+    var _init = function(container) {
         
         if(! container) container = "*";
         
         $(container).find("[data-template]").on("click", function() {
             
-            // get the urls from the data-* attributes
-            var data_url = $(this).data("data");
-            var template_url = $(this).data("template");
-            
-            // load the templates
-            Templa.load(template_url, data_url)
+            _load({
+                data_url: $(this).data("data"),
+                template_url: $(this).data("template")
+            })
             
             history.pushState(null, null, $(this).attr("href"));
             
@@ -257,12 +313,18 @@ var Templa = {}; // api
         })
     }
     
-    Templa.config = function(name, value) {
-        if(typeof value !== "undefined") {
-            return _config[name] = value;
-        } else {
-            return _config[name];
-        }
+    
+    
+    
+    
+    
+    // public methods
+    
+    return {
+        register: _register,
+        load: _load,
+        config: _config,
+        init: _init
     }
     
 })(jQuery);

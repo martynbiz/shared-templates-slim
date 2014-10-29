@@ -58,16 +58,16 @@
     <?php echo $this->embed($templatePathname, $data); ?>
 </div>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
 <!-- <script src="/js/ajax_cacher.js"></script> -->
 <!-- <script src="/js/resource_loader.js"></script> -->
 
 <script src="/js/Templa.js"></script>
+<script src="/js/Routa.js"></script>
 <script src="/js/custom.js"></script>
 </body>
 

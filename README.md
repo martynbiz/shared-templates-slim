@@ -5,7 +5,8 @@ TODO:
 - migrations
 - authentication
 - front end should have a re-usable View object
-- 
+- testing
+- - need to put models into a class so we can perform unit tests:
 
 - test in ie
 - message flashing
